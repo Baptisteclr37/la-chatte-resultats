@@ -1,15 +1,21 @@
 window.addEventListener('DOMContentLoaded', init);
 
 function init() {
-  Tabletop.init({
-    key: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSuc-XJn1YmTCl-5WtrYeOKBS8nfTnRsFCfeNMRvzJcbavfGIX9SUSQdlZnVNPQtapcgr2m4tAwYznB/pubhtml',
-    callback: showData,
-    simpleSheet: true
-  });
+Tabletop.init({
+key: 'https://docs.google.com/spreadsheets/d/19uuSNzMB2KIbtv5iq0UA3pGJqG2c1WOSMsOQ1eaKT_c/pubhtml',
+callback: showData,
+simpleSheet: true
+});
 }
 
 function showData(data) {
-  console.log(data);
-  const container = document.getElementById("content");
-  container.innerHTML = "<h2>Données récupérées</h2><pre>" + JSON.stringify(data, null, 2) + "</pre>";
+console.log("Données récupérées :", data);
+const container = document.getElementById("content");
+
+if (!data || data.length === 0) {
+container.innerHTML = "<p>Aucune donnée reçue.</p>";
+return;
+}
+
+container.innerHTML = "<h2>Données brutes :</h2><pre>" + JSON.stringify(data, null, 2) + "</pre>";
 }
