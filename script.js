@@ -1,13 +1,13 @@
-
 const journeeSelect = document.getElementById("journee-select");
 const journeeNum = document.getElementById("journee-num");
 const container = document.getElementById("matches-container");
 
+// 👇 Voici l'URL publiée en CSV depuis ton Google Sheets (onglet J1)
 const GID_MAP = {
-  J1: "0",  // à remplacer par les vrais gid des onglets
-  J2: "123456789"
-  // Ajouter les autres journées
+  J1: "363948896"  // GID pour J1
 };
+
+const BASE_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSuc-XJn1YmTCl-5WtrYeOKBS8nfTnRsFCfeNMRvzJcbavfGIX9SUSQdlZnVNPQtapcgr2m4tAwYznB/pub";
 
 journeeSelect.addEventListener("change", () => {
   const journee = journeeSelect.value;
@@ -19,11 +19,11 @@ async function fetchAndDisplay(journee) {
   container.innerHTML = "";
 
   const gid = GID_MAP[journee];
-  const url = `https://docs.google.com/spreadsheets/d/e/1RDrekrZMpSL6p7FzaJgpBBMoQGFluc-na-fF-KQuSCg/pub?gid=${gid}&single=true&output=csv`;
+  const url = `${BASE_URL}?gid=${gid}&single=true&output=csv`;
 
   const res = await fetch(url);
   const text = await res.text();
-  const rows = text.split("\n").map(row => row.split(","));
+  const rows = text.split("\\n").map(row => row.split(","));
 
   for (let i = 0; i < 10; i++) {
     const base = i * 5;
@@ -44,4 +44,6 @@ async function fetchAndDisplay(journee) {
   }
 }
 
+// Chargement initial
 fetchAndDisplay("J1");
+
